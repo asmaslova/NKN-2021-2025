@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1dgdk5v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="14.0.0">
+  <bpmn:collaboration id="Collaboration_0yed7a9">
+    <bpmn:participant id="Participant_0sri304" name="Художник" processRef="Process_0m6vw7c" />
+    <bpmn:participant id="Participant_0o84k4g" name="SMM" processRef="Process_1mcjo7l" />
+    <bpmn:participant id="Participant_1g2fqow" name="Ответственные за печать" processRef="Process_0nuwi9k" />
+    <bpmn:participant id="Participant_02vg3ez" name="Ответственные за упаковку и отправку" processRef="Process_0t6ls6s" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_0m6vw7c" isExecutable="false" />
+  <bpmn:process id="Process_1mcjo7l" />
+  <bpmn:process id="Process_0nuwi9k" />
+  <bpmn:process id="Process_0t6ls6s" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0yed7a9">
+      <bpmndi:BPMNShape id="Participant_0sri304_di" bpmnElement="Participant_0sri304" isHorizontal="true">
+        <dc:Bounds x="160" y="100" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_0o84k4g_di" bpmnElement="Participant_0o84k4g" isHorizontal="true">
+        <dc:Bounds x="160" y="350" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1g2fqow_di" bpmnElement="Participant_1g2fqow" isHorizontal="true">
+        <dc:Bounds x="160" y="600" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_02vg3ez_di" bpmnElement="Participant_02vg3ez" isHorizontal="true">
+        <dc:Bounds x="160" y="850" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

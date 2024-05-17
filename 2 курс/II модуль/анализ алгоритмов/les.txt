@@ -1,0 +1,142 @@
+#include iostream
+#include string
+#include array
+#include algorithm
+
+using namespace std;
+
+
+int main()
+{
+    int L;  Size of forest map
+    int water;  Total amount of water available
+
+    cin  L;
+    cin.ignore();
+    
+    cin  water;
+    cin.ignore();
+
+     game loop
+    while (true) {
+
+        int vehicleX, vehicleY;
+        char vehicleT;
+
+        int N;  Amount of fires
+        arrayarrayint, 20, 20 grid = {0};
+
+        cin  N;
+        cin.ignore();
+
+        for (int i = 0; i  N; i++) {
+            int fireX;  X coordinate of fire
+            int fireY;  Y coordinate of fire
+            cin  fireX  fireY;
+            cin.ignore();
+            grid[fireY][fireX] = 1;
+        }
+
+        bool flag = false;
+
+        for (int c = 9; c = 6 and water = 2100; --c) {
+            for (int y = 0; y  L - 2; ++y) {
+                for (int x = 0; x  L - 2; ++x) {
+
+                    int count = 0;
+
+                    if (grid[y + 0][x + 0] == 1) ++count;
+                    if (grid[y + 0][x + 1] == 1) ++count;
+                    if (grid[y + 0][x + 2] == 1) ++count;
+
+                    if (grid[y + 1][x + 0] == 1) ++count;
+                    if (grid[y + 1][x + 1] == 1) ++count;
+                    if (grid[y + 1][x + 2] == 1) ++count;
+
+                    if (grid[y + 2][x + 0] == 1) ++count;
+                    if (grid[y + 2][x + 1] == 1) ++count;
+                    if (grid[y + 2][x + 2] == 1) ++count;
+
+                    if (count = c) {
+                        vehicleT = 'C';
+                        vehicleX = x;
+                        vehicleY = y;
+
+                        water -= 2100;
+                        flag=true;
+                        break;
+                    }
+                }
+                if(flag==true){
+                    break;
+                }
+            }
+            if(flag==true){
+                    break;
+                }
+        }
+
+        if(flag==false){
+            for (int c = 4; c = 2 and water = 1200; --c) {
+            for (int y = 0; y  L - 1; ++y) {
+                for (int x = 0; x  L - 1; ++x) {
+
+                    int count = 0;
+
+                    if (grid[y + 0][x + 0] == 1) ++count;
+                    if (grid[y + 0][x + 1] == 1) ++count;
+
+                    if (grid[y + 1][x + 0] == 1) ++count;
+                    if (grid[y + 1][x + 1] == 1) ++count;
+
+                    if (count = c) {
+                        vehicleT = 'H';
+                        vehicleX = x;
+                        vehicleY = y;
+
+                        water -= 1200;
+
+                        flag=true;
+                    }
+                    if(flag==true){
+                    break;
+                }
+                }if(flag==true){
+                    break;
+                }
+            }
+            if(flag==true){
+                    break;
+                }
+            
+        }
+        }
+        
+        
+        if (water = 600 && flag==false) {
+            for (int y = 0; y  L; ++y) {
+                for (int x = 0; x  L; ++x) {
+
+                    if (grid[y][x + 0] == 1) {
+
+                        vehicleT = 'J';
+                        vehicleX = x;
+                        vehicleY = y;
+
+                        water -= 600;
+
+                        flag=true;
+                    }
+                    if(flag==true){
+                    break;
+                }
+                }if(flag==true){
+                    break;
+                }
+            }
+        }
+        
+
+        cout  vehicleT     vehicleX     vehicleY  endl;
+    }
+}

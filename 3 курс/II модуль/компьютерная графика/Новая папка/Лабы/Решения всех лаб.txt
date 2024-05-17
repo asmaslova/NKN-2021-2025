@@ -1,0 +1,426 @@
+/* Лабораторная работа №1 */
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
+#include <graphics.h>
+
+void pifagor(int n, double x0, double y0, double a, double fi, double alpha) {
+	double x1, y1, x2, y2, x3, y3, x4, y4;
+	double grad = M_PI/180;
+    /* Вычисляем координаты точек */
+	x1 = x0 - a * cos(fi * grad);
+	y1 = y0 - a * sin(fi * grad);
+	x2 = x1 + a * sin(fi * grad);
+	y2 = y1 - a * cos(fi * grad);
+	x3 = x0 + a * sin(fi * grad);
+	y3 = y0 - a * cos(fi * grad);
+	x4 = x3 - a * cos(alpha * grad) * cos((fi + alpha) * grad);
+	y4 = y3 - a * cos(alpha * grad) * sin((fi + alpha) * grad);
+    /* Соединяем линиями вершины */
+	line(x0, y0, x1, y1);
+	line(x1, y1, x2, y2);
+	line(x2, y2, x3, y3);
+	line(x0, y0, x3, y3);
+    /* Проверяем глубину и вызываем для катетов, если не дошли */
+	if (n > 0) {
+      	line(x3, y3, x4, y4);
+		line(x2, y2, x4, y4);
+		pifagor(n - 1, x3, y3, a * cos(alpha * grad), fi + alpha, alpha);
+		pifagor(n - 1, x4, y4, a * sin(alpha * grad), fi + alpha - 90, alpha);
+	}
+}
+int main()
+{
+    /* Запрос автоопределения */
+    int graphdriver = DETECT, gmode, errorcode;
+    /* Инициализация графики и локальных переменных */
+    initgraph(&graphdriver, &gmode, "");
+
+    pifagor(8, 400, 400, 60, 0, 60);
+    pifagor(8, 4100, 400, 60, 0, 60);
+    /* Очистка */
+    getch();
+    closegraph;
+    return 0;
+}
+
+
+/* Лабораторная работа №2 */
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
+#include <graphics.h>
+
+void myline(double x1,double y1,double x2,double y2,int c) {
+    int dx,dy,sx,sy;
+    /* Функция putpixel(int x, int y, int color) выводит пиксел с цветом, заданным параметром color, в точку с координатами х,у. */
+    putpixel(x2,y2,c);
+    if(x2 - x1 >= 0){dx = (int)(x2 - x1);}
+    else dx = (int)(x1 - x2);
+    if(y2 - y1 >= 0){dy = (int)(y2 - y1);}
+    else dy = (int)(y1 - y2);
+    if(x1 < x2){sx = 1;}
+    else sx = -1;
+    if(y1 < y2){sy = 1;}
+    else sy = -1;
+    int error = dx - dy;
+    while(x1 != x2 || y1 != y2) 
+   {
+        putpixel(x1, y1, c);
+        int error2 = error * 2;
+        if(error2 > -dy){
+            error -= dy;
+            x1 += sx;}
+        if(error2 < dx){
+            error += dx;
+            y1 += sy;}
+    }
+}
+
+void mycirc(int x0,int y0,int r,int c) {
+	int x = 0;
+	int y = r;
+	int delta = 1 - 2 * r;
+	int error = 0;
+	while(y >= 0) {
+        error = 2*(delta + y) - 1;
+        putpixel(x0 - x, y0 - y, c);
+        putpixel(x0 + x, y0 - y, c);
+		putpixel(x0 + x, y0 + y, c);
+		putpixel(x0 - x, y0 + y, c);
+		if(delta < 0 && error <= 0) {
+			x++;
+			delta += 2 * x + 1;
+			continue;
+		}
+		error = 2 * (delta - x) - 1;
+		if(delta > 0 && error > 0) {
+			y--;
+			delta += 1-2*y;
+			continue;
+		}
+		x++;
+		delta += 2*(x-y);
+		y--;
+	}
+}
+
+void pifagor(int n, double x0, double y0, double a, double fi, double alpha, int c) {
+	double x1, y1, x2, y2, x3, y3, x4, y4;
+	double grad = M_PI/180;
+    /* Вычисляем координаты точек */
+	x1 = x0 - a * cos(fi * grad);
+	y1 = y0 - a * sin(fi * grad);
+	x2 = x1 + a * sin(fi * grad);
+	y2 = y1 - a * cos(fi * grad);
+	x3 = x0 + a * sin(fi * grad);
+	y3 = y0 - a * cos(fi * grad);
+	x4 = x3 - a * cos(alpha * grad) * cos((fi + alpha) * grad);
+	y4 = y3 - a * cos(alpha * grad) * sin((fi + alpha) * grad);
+    /* Соединяем линиями вершины использую собвственную функцию myline */
+	myline(x0, y0, x1, y1, c);
+	myline(x1, y1, x2, y2, c);
+	myline(x2, y2, x3, y3, c);
+	myline(x0, y0, x3, y3, c);
+	if (n > 0) {
+      	myline(x3, y3, x4, y4, c);
+		myline(x2, y2, x4, y4, c);
+
+		pifagor(n - 1, x3, y3, a * cos(alpha * grad), fi + alpha, alpha, c);
+		pifagor(n - 1, x4, y4, a * sin(alpha * grad), fi + alpha - 90, alpha, c);
+	}
+}
+
+int main()
+{
+    /* Запрос автоопределения */
+    int gddriver = DETECT, gmode, errorcode;
+    /* Инициализация графики и локальных переменных */
+    initgraph(&gddriver, &gmode, "");
+    pifagor(6, 200, 200, 40, 0, 45, 2);
+    
+    myline(25, 325, 600, 325, 4);
+    
+    mycirc(200, 400, 50, 8);
+    mycirc(275, 400, 50, 9);
+    mycirc(350, 400, 50, 10);
+    mycirc(425, 400, 50, 11);
+    /* Очистка */
+    getch();
+    closegraph;
+    return 0;
+}
+
+/*Лабораторная работа №4(№3 такой же код, только без класса Triangle*/
+#include <SFML/Graphics.hpp>
+#include <fstream>
+#include <cmath>
+#include <vector>
+#include <string>
+#include <sstream>
+
+sf::Image img;
+
+void myline(int x1, int y1, int x2, int y2, sf::Image& img, sf::Color color) {
+
+    const int deltaX = abs(x2 - x1);
+    const int deltaY = abs(y2 - y1);
+    const int signX = x1 < x2 ? 1 : -1;
+    const int signY = y1 < y2 ? 1 : -1;
+    int error = deltaX - deltaY;
+    img.setPixel(x2, y2, color);
+    while(x1 != x2 || y1 != y2)
+    {
+        img.setPixel(x1, y1, color);
+        int error2 = error * 2;
+        if(error2 > -deltaY)
+        {
+            error -= deltaY;
+            x1 += signX;
+        }
+        if(error2 < deltaX)
+        {
+            error += deltaX;
+            y1 += signY;
+        }
+    }
+
+}
+
+void myline1(int x1, int y1, int x2, int y2, sf::RenderWindow& window, sf::Color color) {
+    sf::Vertex vertices[2];
+
+    vertices[0].position = sf::Vector2f (x1, y1);
+    vertices[0].color = sf::Color::Yellow;
+    vertices[1].position = sf::Vector2f (x2, y2);
+    vertices[1].color = sf::Color::Yellow;
+
+
+    window.draw(vertices, 2, sf::Lines);
+
+}
+
+struct Point{
+    double x, y, z;
+};
+
+class Vertex {
+
+private:
+    Point world;
+    Point view;
+
+    friend class Edge;
+    friend class Surface;
+    friend class Triangle;
+public:
+    Vertex(double x, double y, double z): world{x,y,z}
+    {}
+
+    explicit Vertex() : world{0,0,0}
+    {}
+
+
+    void SetViewCoord(Point sphere) {
+        double st = sin(sphere.y);
+        double ct = cos(sphere.y);
+        double sf = sin(sphere.z);
+        double cf = cos(sphere.z);
+
+        view.x = world.x*(-sf)+world.y*cf;
+        view.y = world.x*(-ct*cf) + world.y*(-ct*sf) + world.z*st;
+        view.z = world.x*(-st*cf) + world.y*(-st*sf) + world.z*(-ct) + sphere.x;
+    }
+
+    bool operator==(Vertex& v) const {
+        return (view.x == v.view.x && view.y == v.view.y && view.z == v.view.z);
+    }
+};
+
+class Edge {
+private:
+    Vertex s_vert;
+    Vertex f_vert;
+
+    friend class Surface;
+    friend class Triangle;
+public:
+    Edge(Vertex a, Vertex b) {
+        s_vert.view = {a.view.x, a.view.y, a.view.z};
+        f_vert.view = {b.view.x, b.view.y, b.view.z};
+    }
+
+    Edge(Edge& e) {
+        s_vert = e.s_vert;
+        f_vert = e.f_vert;
+    }
+
+    Edge& operator=(Edge e) {
+        s_vert = e.s_vert;
+        f_vert = e.f_vert;
+
+        return *this;
+    }
+
+    void DrawEdge(double yu, double yd, double xl, double xr, double ju, double jd, double il, double ir, double rr) {
+        double x,y,x1,y1;
+        int i, j, i1, j1;
+        x = (rr/(2.0*(s_vert.view.z)))*s_vert.view.x;
+        y = (rr/(2.0*(s_vert.view.z)))*s_vert.view.y;
+        x1 = (rr/(2.0*(f_vert.view.z)))*f_vert.view.x;
+        y1 = (rr/(2.0*(f_vert.view.z)))*f_vert.view.y;
+
+        i = (int)(ir + ((x-xr)*(il-ir))/(xl-xr));
+        j = (int)(ju + ((y-yu)*(jd-ju))/(yd-yu));
+        i1 = (int)(ir + ((x1-xr)*(il-ir))/(xl-xr));
+        j1 = (int)(ju + ((y1-yu)*(jd-ju))/(yd-yu));
+
+        myline(i,j,i1,j1,img,sf::Color::Yellow);
+    }
+
+};
+
+class Triangle{
+private:
+    Vertex x_;
+    Vertex y_;
+    Vertex z_;
+    Vertex n_;
+    bool flag_;
+
+    friend class Surface;
+
+    static double Sqr(double x) {
+        return x*x;
+    }
+
+    void CalcNorm() {
+        Vertex v1, v2;
+        v1.view.x = x_.view.x - y_.view.x;
+        v1.view.y = x_.view.y - y_.view.y;
+        v1.view.z = x_.view.z - y_.view.z;
+
+        v1.view.x = y_.view.x - z_.view.x;
+        v2.view.y = y_.view.y - z_.view.y;
+        v2.view.z = y_.view.z - z_.view.z;
+
+        auto wrki = sqrt(Sqr(v1.view.y * v2.view.z - v1.view.z * v2.view.y) +
+                         Sqr(v1.view.z * v2.view.x - v1.view.x * v2.view.z) +
+                         Sqr(v1.view.x * v2.view.y - v1.view.y * v2.view.x));
+
+        n_.view.x = (v1.view.y*v2.view.z - v1.view.z*v2.view.y) / wrki;
+        n_.view.y = (v1.view.z*v2.view.x - v1.view.x*v2.view.z) / wrki;
+        n_.view.z = (v1.view.x*v2.view.y - v1.view.y*v2.view.x) / wrki;
+    }
+
+    bool Test(const Edge& e) {
+
+    }
+
+
+public:
+    Triangle(Vertex x, Vertex y, Vertex z) : x_(x), y_(y), z_(z), flag_(false)
+    {
+        double x1, y1, x2, y2, x3, y3, k;
+        x1=x_.view.x;
+        y1=x_.view.y;
+        x2=y_.view.x;
+        y2=y_.view.y;
+        x3=z_.view.x;
+        y3=z_.view.y;
+        k=x1*y2*1+y1*1*x3+1*x2*y3-1*y2*x3-x1*1*y3-y1*x2*1;
+        if (k>0) flag_ = true;
+    }
+
+
+};
+
+class Surface {
+
+private:
+    friend class Edge;
+    std::vector<Edge*> e;
+    std::vector<Vertex*> v;
+    std::vector<Triangle*> t;
+    Point viewpoint;
+    double yu, yd, xl, xr, ju, jd, il, ir;
+    int n;
+public:
+
+    void DrawSurface() {
+        for(int i = 0; i < n; ++i) {
+            for(int j = 0; j < t.size(); ++j) {
+                    if(t[j]->flag_) {
+                        auto f1 = e[i]->s_vert == t[j]->x_ || e[i]->s_vert == t[j]->y_ || e[i]->s_vert == t[j]->z_;
+                        auto f2 = e[i]->f_vert == t[j]->x_ || e[i]->f_vert == t[j]->y_ || e[i]->f_vert == t[j]->z_;
+
+                        if(f1 && f2)
+                            e[i]->DrawEdge(yu, yd, xl, xr, ju, jd, il, ir, viewpoint.x);
+                    }
+            }
+        }
+
+        /*for(int i = 0; i < n; ++i) {
+           e[i]->DrawEdge(yu, yd, xl, xr, ju, jd, il, ir, viewpoint.x);
+        }
+         */
+    }
+
+    void SetViewPoint(Point& p) {
+        viewpoint = p;
+        yu = -2;
+        yd = 2;
+        xl = -2;
+        xr = 2;
+        il = 0;
+        ir = 1024;
+        ju = 0;
+        jd = 1024;
+    }
+
+    void Load() {
+        int v_num;
+        double x, y, z;
+        int a, b;
+        char ch;
+        int tx, ty, tz;
+        std::ifstream fin("D:\DevC++_project\test.txt");
+
+        fin >> n >> v_num;
+
+        v.resize(v_num);
+
+        for(int i = 0; i < v_num; ++i) {
+            fin >> x >> y >> z;
+            v[i] = new Vertex(x, y, z);
+            v[i]->SetViewCoord(viewpoint);
+        }
+
+        e.reserve(n);
+        for(int i = 0; i < n; ++i) {
+            fin >> a >> b;
+            e.push_back(new Edge(*v[a-1], *v[b-1]));
+        }
+
+        t.reserve(8);
+        for(int i = 0; i < 8; ++i) {
+            fin >> tx >> ty >> tz;
+            t.push_back(new Triangle(*v[tx-1], *v[ty-1], *v[tz-1]));
+        }
+
+    }
+};
+
+
+int main() {
+    img.create(1024, 1024, sf::Color::Black);
+    Surface s;
+    Point p = {50,M_PI/4,M_PI/4};
+    s.SetViewPoint(p);
+    s.Load();
+    s.DrawSurface();
+
+    img.saveToFile("test.png");
+
+    return 0;
+}

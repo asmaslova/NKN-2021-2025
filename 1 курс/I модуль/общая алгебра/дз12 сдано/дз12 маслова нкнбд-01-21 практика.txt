@@ -1,0 +1,97 @@
+##task 1
+sage: alpha=sqrt(2+5^(1/3))
+sage: QQbar(alpha)
+1.926129784484083?
+sage: QQbar(alpha).minpoly()
+x^6 - 6*x^4 + 12*x^2 - 13
+##task 2
+sage: CC[x](x^3+2*x+1).roots()
+[(-0.453397651516404, 1),
+ (0.226698825758202 - 1.46771150871022*I, 1),
+ (0.226698825758202 + 1.46771150871022*I, 1)]
+sage: alpha1=(-0.453397651516404)
+sage: alpha2=(0.226698825758202 - 1.46771150871022*I)
+sage: alpha3=(0.226698825758202 + 1.46771150871022*I)
+sage: r=((alpha1-alpha2)*(alpha1-alpha3)*(alpha2-alpha3))
+sage: r
+-7.68114574786855*I
+sage: r.minpoly()
+x^2 + 18697846353366100875453565738281/316912650057057350374175801344
+##task 3
+sage: var('x,y,z,t')
+(x, y, z, t)
+sage: A=[2*x-t*y+t^2*z, t*x+y-z, t*x+y+z]
+sage: K=QQ[t][x,y,z]
+sage: triangulation([K(a) for a in A])
+[2*x + (-t)*y + t^2*z, (t^2 + 2)*y + (-t^3 - 2)*z, (4*t^2 + 8)*z]
+sage: T=triangulation([K(a) for a in A])
+sage: L=[K(a).lc() for a in T]
+sage: L
+[2, t^2 + 2, 4*t^2 + 8]
+sage: [QQ[t](l) for l in L]
+[2, t^2 + 2, 4*t^2 + 8]
+sage: [QQ[t](l).roots(AA) for l in L]
+[[], [], []]
+##нет корней вообще, не знаю, почему
+
+##task 4
+sage: var('x,y,z,t')
+(x, y, z, t)
+sage: A
+[t^2*z - t*y + 2*x, t*x + y - z, t*x + y + z]
+sage: S=A
+sage: S
+[t^2*z - t*y + 2*x, t*x + y - z, t*x + y + z]
+sage: K=CC[t][x,y,z]
+sage: triangulation([K(s) for s in S])
+[2.00000000000000*x + (-t)*y + t^2*z,
+ (t^2 + 2.00000000000000)*y + (-t^3 - 2.00000000000000)*z,
+ (4.00000000000000*t^2 + 8.00000000000000)*z]
+sage: T=triangulation([K(s) for s in S])
+sage: L=[K(s).lc() for s in T]
+sage: L
+[2.00000000000000,
+ t^2 + 2.00000000000000,
+ 4.00000000000000*t^2 + 8.00000000000000]
+sage: [CC[t](l) for l in L]
+[2.00000000000000,
+ t^2 + 2.00000000000000,
+ 4.00000000000000*t^2 + 8.00000000000000]
+sage: [CC[t](l).roots(CC) for l in L]
+[[],
+ [(-1.41421356237310*I, 1), (1.41421356237310*I, 1)],
+ [(-1.41421356237310*I, 1), (1.41421356237310*I, 1)]]
+sage: T1=[CC[t](l).roots(CC) for l in L]
+sage: t1=T1[1][0][0]
+sage: t2=T1[2][0][0]
+sage: triangulation([CC[x,y,z](s.subs(t=t1)) for s in S])
+[2.00000000000000*x + 1.41421356237310*I*y + (-2.00000000000000)*z,
+ (-4.44089209850063e-16)*y + (-2.00000000000000 - 2.82842712474619*I)*z,
+ (-1.77635683940025e-15)*z]
+sage: triangulation([CC[x,y,z](s.subs(t=t2)) for s in S])
+[2.00000000000000*x + 1.41421356237310*I*y + (-2.00000000000000)*z,
+ (-4.44089209850063e-16)*y + (-2.00000000000000 - 2.82842712474619*I)*z,
+ (-1.77635683940025e-15)*z]
+sage: tsolve(triangulation([CC[x,y,z](s.subs(t=t1)) for s in S]))
+[0.000000000000000, 0.000000000000000, 0.000000000000000]
+sage: tsolve(triangulation([CC[x,y,z](s.subs(t=t2)) for s in S]))
+[0.000000000000000, 0.000000000000000, 0.000000000000000]
+
+##task5
+##Б)
+sage: (QQ[x](x^3-7*x+6)).factor()
+(x - 2) * (x - 1) * (x + 3)
+##при попытке добавить корни уравнения к полю QQ sage выдал ошибку о том, 
+что полином должен быть простым. это означало, что многочлен и без этого
+раскладывается на простые множители, а значит QQ сам по себе является
+полем разложения этого уравнения
+##a)
+sage: K.<alpha> = NumberField(QQ[x](x^4-2*x+3))
+sage: K[x](x^4-2*x+3).factor()
+(x - alpha) * (x^3 + alpha*x^2 + alpha^2*x + alpha^3 - 2)
+sage: L[x](x^4-2*x+3).factor()
+(x - beta) * (x - alpha) * (x^2 + (beta + alpha)*x + beta^2 + alpha*beta + alpha^2)
+sage: g1=list(L[x](x^4-2*x+3).factor())[1][0]
+sage: M.<gamma> = L.extension(g1)
+sage: M[x](x^4-2*x+3).factor()
+(x - alpha) * (x - beta) * (x^2 + (beta + alpha)*x + beta^2 + alpha*beta + alpha^2)

@@ -1,0 +1,20 @@
+sage: var ('x, y')
+(x, y)
+##задание 1
+sage: FractionField(QQ[x,y])
+Fraction Field of Multivariate Polynomial Ring in x, y over Rational Field
+##задание 2
+sage: FractionField(QQ[x]) == FractionField(ZZ[x])
+False
+##задание 3
+sage: FractionField(QQ[x]) == QQ[x]
+False
+##задание 4
+sage: QQ[x, y]
+Multivariate Polynomial Ring in x, y over Rational Field
+sage: parent(x/y)
+Symbolic Ring
+sage: (QQ[x,y](x)/QQ[x,y](y)).parent()
+Fraction Field of Multivariate Polynomial Ring in x, y over Rational Field
+##я предполагаю, что так происходит из-за того, что просто х/у - это символ, что вполне логично, но sage не понимает, какой
+##а в такой формулировке ему понятнее
