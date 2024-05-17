@@ -1,0 +1,43 @@
+##task 1
+sage: A=(x^3+2*x+3)
+sage: GF(3)[x](A).factor()
+x * (x + 1) * (x + 2)
+sage: QQ[x](A).factor()
+(x + 1) * (x^2 - x + 3)
+##task 2
+sage: B=(x^6-5*x^5+10*x^4-12*x^3+11*x^2-7*x+2)
+sage: QQ[x](B).factor()
+(x - 2) * (x - 1)^3 * (x^2 + 1) ##множитель кратности 3 - (х-1)
+#task 3
+sage: QQ[x](C).roots()
+[(1/2, 4)]
+sage: QQ[x](C).factor()
+(16) * (x - 1/2)^4 * (x^2 + 1) ##корень - 1/2 с кратностью 4
+##task 4
+sage: D=(((x^2+4)^3)*(x^2-4))
+sage: QQ[x](D).factor()
+(x - 2) * (x + 2) * (x^2 + 4)^3
+sage: RR[x](D).factor()
+(x - 2.00000000000000) * (x + 2.00000000000000) * (x^2 + 4.00000000000000)^3
+sage: CC[x](D).factor()
+(x - 2.00000000000000) * (x - 2.00000000000000*I)^3 * (x + 2.00000000000000*I)^3 * (x + 2.00000000000000)
+##разложения совпадают в кольцах QQ и RR
+##task 5
+sage: QQ[x](E).factor()
+(8) * (x - 1) * (x + 2)^2 * (x^3 + 1/2*x - 1/2)^3
+sage: ZZ[x](E).factor()
+(x - 1) * (x + 2)^2 * (2*x^3 + x - 1)^3
+##task 6
+sage: F=(y^2+x^3+2*x+3)
+sage: QQ[x,y](F).factor()
+x^3 + y^2 + 2*x + 3
+sage: CC[x,y](F).factor()
+NotImplementedError: Provably correct factorization not implemented. Disable this error by wrapping your code in a `with proof.WithProof('polynomial', False):` block.
+
+
+
+
+
+
+
+
